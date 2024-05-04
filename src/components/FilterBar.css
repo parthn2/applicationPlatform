@@ -1,0 +1,13 @@
+.filter-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+  }
+  
+  .filter-item {
+    margin-right: 8px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+  }

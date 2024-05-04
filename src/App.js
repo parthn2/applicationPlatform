@@ -1,43 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import JobList from './components/JobList';
+import FilterBar from './components/FilterBar';
+import { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure } from './features/jobs/jobSlice';
 
 function App() {
-  const [jobData, setJobData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { filteredJobs, isLoading, error } = useSelector(state => state.jobs);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
-      axios.post('https://api.weekday.technology/adhoc/getSampleJdJSON', {
-        // Your request body here, if necessary
-      })
-      .then(response => {
-        setJobData(response.data.jdList);
-      })
-      .catch(error => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+      dispatch(fetchJobsStart());
+      try {
+        const response = await axios.post('https://api.weekday.technology/adhoc/getSampleJdJSON');
+        dispatch(fetchJobsSuccess(response.data.jdList));
+      } catch (error) {
+        dispatch(fetchJobsFailure(error.message));
+      }
     };
-
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  if (!Array.isArray(jobData)) {
-    return <div>Data is not available or still loading.</div>;
-  }
-
   return (
     <div>
-      <JobList jobs={jobData} />
-  </div>
+      <FilterBar />
+      <JobList jobs={filteredJobs} />
+    </div>
   );
 }
 

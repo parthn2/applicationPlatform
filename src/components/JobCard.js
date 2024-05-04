@@ -1,5 +1,5 @@
 import React from 'react';
-import './JobCard.css'; // Assuming your CSS is saved in JobCard.css
+import './JobCard.css';
 
 const JobCard = ({ job }) => {
   // Function to truncate the job details text if it's too long
