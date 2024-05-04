@@ -1,5 +1,10 @@
 .App {
-  text-align: center;
+  background-color: #edf2f7; /* Light grey background */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
 }
 
 .App-logo {
@@ -34,5 +39,16 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .job-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .job-card {
+    max-width: 90%;
   }
 }

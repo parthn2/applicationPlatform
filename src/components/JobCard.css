@@ -1,0 +1,124 @@
+.job-card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+    max-width: 350px;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  
+  .view-job-link {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #4a90e2; /* Sample blue color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .job-card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .job-card-header img {
+    margin-right: 10px;
+  }
+  
+  .job-card-header time {
+    font-size: 14px;
+    color: #999999;
+    margin-left: auto;
+  }
+  
+  .company-logo {
+    width: 50px; /* Adjust size as needed */
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: #eeeeee; /* Placeholder color */
+  }
+  
+  .company-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333;
+    margin: 0;
+  }
+  
+  .job-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333333;
+    margin: 0;
+  }
+  
+  .job-location {
+    font-size: 18px;
+    color: #666666;
+    margin: 5px 0;
+  }
+  
+  .salary {
+    display: inline-block;
+    font-size: 18px;
+    color: #2a9d8f;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: #eafaf1;
+    border-radius: 8px;
+    padding: 5px 10px;
+  }
+  
+  .about-company {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 20px;
+  }
+  
+  .minimum-experience {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 20px;
+  }
+  
+  .apply-button {
+    background-color: #2a9d8f;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  
+  .referral-button {
+    background-color: transparent;
+    color: #2a9d8f;
+    border: 2px solid #2a9d8f;
+    border-radius: 8px;
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    text-align: center;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .referral-button img {
+    width: 20px; /* Adjust size as needed */
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
