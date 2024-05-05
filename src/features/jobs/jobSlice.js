@@ -4,10 +4,20 @@ const initialState = {
     jobs: [],
     filteredJobs: [],
     numberOfEmployees: [],
+    minExperience: 0,
+    minBasePay: 0,
+    location: '',
     searchQuery: '',
     isLoading: false,
     error: null
 };
+
+function filterJobs(state){
+    state.filteredJobs = state.jobs.filter(job =>
+        job.minJdSalary >= state.minBasePay && job.minExp >= state.minExperience && job.companyName.toLowerCase().includes(state.searchQuery.toLowerCase()) && (job.location.toLowerCase() === state.location.toLowerCase() ||
+        (state.location.toLowerCase() === "onsite" && job.location.toLowerCase() !== "remote"))
+    );
+}
 
 const jobsSlice = createSlice({
     name: 'jobs',
@@ -28,20 +38,19 @@ const jobsSlice = createSlice({
         },
         setSearchQuery(state, action) {
             state.searchQuery = action.payload;
-            state.filteredJobs = state.jobs.filter(job =>
-                job.companyName.toLowerCase().includes(state.searchQuery.toLowerCase())
-            );
+            filterJobs(state);
+
         },
         setMinExperience(state, action) {
-            state.filteredJobs = state.jobs.filter(job =>
-                job.minExp >= action.payload
-            );
+            state.minExperience = action.payload;
+            filterJobs(state);
+
         },
         setMinBasePay(state, action) {
-            state.filteredJobs = state.jobs.filter(job =>
-                job.minJdSalary >= action.payload
-            );
+            state.minBasePay = action.payload;
+            filterJobs(state);
         },
+        //this function is not working because employee count is not availible in API
         setNumberOfEmployees: (state, action) => {
             state.numberOfEmployees = action.payload;
       
@@ -58,8 +67,12 @@ const jobsSlice = createSlice({
               state.numberOfEmployees.some(range => isInRange(job.employeeCount, range))  // job.employeeCount is not availible in API so this feauture is not working
             );
         },
+        setLocation: (state, action) => {
+            state.location = action.payload;
+            filterJobs(state);
+        },
     }
 });
 
-export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees } = jobsSlice.actions;
+export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees, setLocation } = jobsSlice.actions;
 export default jobsSlice.reducer;

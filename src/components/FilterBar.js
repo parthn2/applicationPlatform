@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, TextField, Chip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees } from '../features/jobs/jobSlice';
+import { setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees, setLocation} from '../features/jobs/jobSlice';
 
 const FilterBar = () => {
   //search query
@@ -11,12 +11,12 @@ const FilterBar = () => {
   const minBasePay = useSelector(state => state.jobs.minBasePay);
 
   const numberOfEmployees = useSelector(state => state.jobs.numberOfEmployees);
+  const location = useSelector(state => state.jobs.location);
 
   // Function to handle the removal of a filter chip
   const handleDelete = (chipToDelete) => () => {
     dispatch(setNumberOfEmployees(numberOfEmployees.filter((chip) => chip !== chipToDelete)));
   };
-
   // Function to add a new number of employees filter
   const handleAddEmployeeFilter = (event) => {
     const newFilter = event.target.value;
@@ -25,8 +25,30 @@ const FilterBar = () => {
     }
   };
 
+    // For location
+    const handleDeleteLocation = (chipToDelete) => () => {
+      dispatch(setLocation(location.filter((chip) => chip !== chipToDelete)));
+    };
+    const handleAddLocationFilter = (event) => {
+      const newFilter = event.target.value;
+      if (!location.includes(newFilter)) {
+        dispatch(setLocation([...location, newFilter]));
+      }
+    };
+
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
+
+        <FormControl variant="outlined" style={{ marginRight: 8, marginBottom: 8, minWidth: 120 }}>
+        <InputLabel>Location</InputLabel>
+        <Select
+          label="Location"
+          value={location}
+          onChange={(e) => dispatch(setLocation(e.target.value))}>
+          <MenuItem value="remote">remote</MenuItem>
+          <MenuItem value="onsite">On Site</MenuItem>
+        </Select>
+      </FormControl>
 
       <FormControl variant="outlined" style={{ marginRight: 8, marginBottom: 8, minWidth: 120 }}>
         <InputLabel>No Of Employees</InputLabel>
@@ -55,7 +77,6 @@ const FilterBar = () => {
         </Box>
       </FormControl>
 
-      
       <FormControl variant="outlined" style={{ marginRight: 8, marginBottom: 8, minWidth: 120 }}>
         <InputLabel>Min Experience</InputLabel>
         <Select
