@@ -30,9 +30,19 @@ const jobsSlice = createSlice({
             state.filteredJobs = state.jobs.filter(job =>
                 job.companyName.toLowerCase().includes(state.searchQuery.toLowerCase())
             );
-        }
+        },
+        setMinExperience(state, action) {
+            state.filteredJobs = state.jobs.filter(job =>
+                job.minExp >= action.payload
+            );
+        },
+        setMinBasePay(state, action) {
+            state.filteredJobs = state.jobs.filter(job =>
+                job.minJdSalary >= action.payload
+            );
+        },
     }
 });
 
-export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery } = jobsSlice.actions;
+export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery, setMinExperience, setMinBasePay } = jobsSlice.actions;
 export default jobsSlice.reducer;

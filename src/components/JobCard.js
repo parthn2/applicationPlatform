@@ -11,19 +11,20 @@ const JobCard = ({ job }) => {
     <div className="job-card">
       <div className="job-card-header">
         <img src={job.logoUrl} alt="Company Logo" className="company-logo"/>
-        <time>Posted {job.postedTime} days ago</time>
+        <time>Posted {job.postedTime || 10} days ago</time>
       </div>
       <h2 className="company-name">{job.companyName}</h2>
       <h3 className="job-title">{job.jobRole}</h3>
       <p className="job-location">{job.location}</p>
-      <div className="salary">
+      {job.minJdSalary && job.maxJdSalary && <div className="salary">
         Estimated Salary: {job.salaryCurrencyCode} {job.minJdSalary} - {job.maxJdSalary} LPA
       </div>
+      }
       <div className="about-company">
         <h4>About Company:</h4>
         <p>{truncateText(job.jobDetailsFromCompany, 100)}</p> {/* Truncate to 100 characters */}
       </div>
-      <div className="minimum-experience">Minimum Experience: {job.minExp} years</div>
+      {job.minExp && <div className="minimum-experience">Minimum Experience: {job.minExp} years</div>}
       <button className="apply-button">Easy Apply</button>
       <button className="referral-button">
         Unlock referral asks
