@@ -1,36 +1,42 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import JobList from './components/JobList';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import FilterBar from './components/FilterBar';
-import { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure } from './features/jobs/jobSlice';
+import { fetchJobs } from './features/jobs/jobSlice';
 
 function App() {
   const dispatch = useDispatch();
   const { filteredJobs, isLoading, error } = useSelector(state => state.jobs);
+  const [page, setPage] = useState(1);
+  const limit = 20;
 
   useEffect(() => {
-    const fetchData = async () => {
-      dispatch(fetchJobsStart());
-      try {
-        const response = await axios.post('https://api.weekday.technology/adhoc/getSampleJdJSON');
-        dispatch(fetchJobsSuccess(response.data.jdList));
-      } catch (error) {
-        dispatch(fetchJobsFailure(error.message));
-      }
-    };
-    fetchData();
-  }, [dispatch]);
+    dispatch(fetchJobs(page, limit));
+  }, [dispatch, page]);
 
-  if (isLoading) return <p>Loading...</p>;
+  const fetchMoreData = () => {
+    if (!isLoading) {
+      setPage(prevPage => prevPage + 1);
+    }
+  };
+
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
       <FilterBar />
-      <JobList jobs={filteredJobs} />
+      <InfiniteScroll
+        dataLength={filteredJobs.length}
+        next={fetchMoreData}
+        hasMore={true} // You might need a better way to determine if there are more items
+        loader={<h4>Loading...</h4>}
+      >
+        <JobList jobs={filteredJobs} />
+      </InfiniteScroll>
     </div>
   );
+
 }
 
 export default App;

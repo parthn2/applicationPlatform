@@ -72,6 +72,7 @@ const FilterBar = () => {
           onChange={(e) => dispatch(setLocation(e.target.value))}>
           <MenuItem value="remote">remote</MenuItem>
           <MenuItem value="onsite">On Site</MenuItem>
+          <MenuItem value="hybrid">hybrid</MenuItem>
         </Select>
       </FormControl>
 
@@ -80,7 +81,7 @@ const FilterBar = () => {
         <Select
           label="No Of Employees"
           value=""
-          onChange={handleAddEmployeeFilter}
+          //onChange={handleAddEmployeeFilter}
           renderValue={(selected) => null} // Prevents displaying the value inside the select box
         >
           <MenuItem value="1-10">1-10</MenuItem>
