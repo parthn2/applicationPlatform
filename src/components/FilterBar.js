@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, TextField, Chip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees, setLocation} from '../features/jobs/jobSlice';
+import { setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees, setLocation, setRole} from '../features/jobs/jobSlice';
 
 const FilterBar = () => {
   //search query
@@ -12,6 +12,7 @@ const FilterBar = () => {
 
   const numberOfEmployees = useSelector(state => state.jobs.numberOfEmployees);
   const location = useSelector(state => state.jobs.location);
+  const role = useSelector(state => state.jobs.role);
 
   // Function to handle the removal of a filter chip
   const handleDelete = (chipToDelete) => () => {
@@ -25,19 +26,43 @@ const FilterBar = () => {
     }
   };
 
-    // For location
-    const handleDeleteLocation = (chipToDelete) => () => {
-      dispatch(setLocation(location.filter((chip) => chip !== chipToDelete)));
+    // For Role
+    const handleDeleteRole = (chipToDelete) => () => {
+      dispatch(setRole(role.filter((chip) => chip !== chipToDelete)));
     };
-    const handleAddLocationFilter = (event) => {
+    const handleRoleFilter = (event) => {
       const newFilter = event.target.value;
-      if (!location.includes(newFilter)) {
-        dispatch(setLocation([...location, newFilter]));
+      if (!role.includes(newFilter)) {
+        dispatch(setRole([...role, newFilter]));
       }
     };
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
+
+        <FormControl variant="outlined" style={{ marginRight: 8, marginBottom: 8, minWidth: 120 }}>
+        <InputLabel>Roles</InputLabel>
+        <Select
+          label="Role"
+          value=""
+          onChange={handleRoleFilter}
+          renderValue={(selected) => null} // Prevents displaying the value inside the select box
+        >
+          <MenuItem value="frontend">Frontend</MenuItem>
+          <MenuItem value="backend">Backend</MenuItem>
+          <MenuItem value="ios">Ios</MenuItem>
+          <MenuItem value="tech lead">Tech Lead</MenuItem>
+        </Select>
+        <Box style={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+          {role.map((data) => (
+            <Chip
+              key={data}
+              label={data}
+              onDelete={handleDeleteRole(data)}
+            />
+          ))}
+        </Box>
+      </FormControl>
 
         <FormControl variant="outlined" style={{ marginRight: 8, marginBottom: 8, minWidth: 120 }}>
         <InputLabel>Location</InputLabel>

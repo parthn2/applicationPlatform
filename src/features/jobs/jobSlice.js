@@ -4,6 +4,7 @@ const initialState = {
     jobs: [],
     filteredJobs: [],
     numberOfEmployees: [],
+    role: [],
     minExperience: 0,
     minBasePay: 0,
     location: '',
@@ -13,9 +14,11 @@ const initialState = {
 };
 
 function filterJobs(state){
+    console.log(state.role.length)
+    console.log(state.location)
     state.filteredJobs = state.jobs.filter(job =>
-        job.minJdSalary >= state.minBasePay && job.minExp >= state.minExperience && job.companyName.toLowerCase().includes(state.searchQuery.toLowerCase()) && (job.location.toLowerCase() === state.location.toLowerCase() ||
-        (state.location.toLowerCase() === "onsite" && job.location.toLowerCase() !== "remote"))
+        (state.role.length === 0 || state.role.some(role => job.jobRole.toLowerCase().includes(role))) && job.minJdSalary >= state.minBasePay && job.minExp >= state.minExperience && job.companyName.toLowerCase().includes(state.searchQuery.toLowerCase()) && (state.location !== '' && (job.location.toLowerCase() === state.location.toLowerCase() ||
+        (state.location.toLowerCase() === "onsite" && job.location.toLowerCase() !== "remote")))
     );
 }
 
@@ -71,8 +74,12 @@ const jobsSlice = createSlice({
             state.location = action.payload;
             filterJobs(state);
         },
+        setRole: (state, action) => {
+            state.role = action.payload;
+            filterJobs(state);
+        }
     }
 });
 
-export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees, setLocation } = jobsSlice.actions;
+export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees, setLocation, setRole } = jobsSlice.actions;
 export default jobsSlice.reducer;
