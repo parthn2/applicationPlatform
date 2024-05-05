@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     jobs: [],
     filteredJobs: [],
+    numberOfEmployees: [],
     searchQuery: '',
     isLoading: false,
     error: null
@@ -41,8 +42,24 @@ const jobsSlice = createSlice({
                 job.minJdSalary >= action.payload
             );
         },
+        setNumberOfEmployees: (state, action) => {
+            state.numberOfEmployees = action.payload;
+      
+            // Helper function to check if employee count is within the range
+            const isInRange = (count, range) => {
+              if (range === "500+") {
+                return count >= 500;
+              }
+              const [min, max] = range.split("-").map(Number);
+              return count >= min && count <= max;
+            };
+      
+            state.filteredJobs = state.jobs.filter(job =>
+              state.numberOfEmployees.some(range => isInRange(job.employeeCount, range))  // job.employeeCount is not availible in API so this feauture is not working
+            );
+        },
     }
 });
 
-export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery, setMinExperience, setMinBasePay } = jobsSlice.actions;
+export const { fetchJobsStart, fetchJobsSuccess, fetchJobsFailure, setSearchQuery, setMinExperience, setMinBasePay, setNumberOfEmployees } = jobsSlice.actions;
 export default jobsSlice.reducer;
